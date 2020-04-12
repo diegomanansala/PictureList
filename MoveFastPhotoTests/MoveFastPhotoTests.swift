@@ -10,24 +10,50 @@ import XCTest
 @testable import MoveFastPhoto
 
 class MoveFastPhotoTests: XCTestCase {
-
+    var networkApi: Network!
+    var mockURLSession: MockURLSession!
+    
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        self.networkApi = Network()
+        self.mockURLSession = MockURLSession(data: nil)
+        self.networkApi.session = mockURLSession
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        self.networkApi.session = nil
+        self.mockURLSession = nil
+        self.networkApi = nil
     }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+    func testGetPhotosSuccessCompletes() {
+        let promise = expectation(description: "Movies Successful")
+        var imagesResponse: [Photo]?
+        var successResponse: Bool?
+        self.networkApi.getPhotos { (images, success) in
+            imagesResponse = images
+            successResponse = success
+            promise.fulfill()
+        }
+        
+        waitForExpectations(timeout: 8) { (error) in
+            XCTAssertTrue(successResponse ?? false)
+            XCTAssertNotNil(imagesResponse)
+        }
     }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func testGetPhotosSuccessReturns10Images() {
+        let promise = expectation(description: "Movies")
+        var imagesResponse: [Photo]?
+        var successResponse: Bool?
+        self.networkApi.getPhotos(page: 1, limit: 10, completionHandler: { (images, success) in
+            imagesResponse = images
+            successResponse = success
+            promise.fulfill()
+        })
+        
+        waitForExpectations(timeout: 8) { (error) in
+            XCTAssertTrue(successResponse ?? false)
+            XCTAssertEqual(imagesResponse!.count, 10)
         }
     }
 

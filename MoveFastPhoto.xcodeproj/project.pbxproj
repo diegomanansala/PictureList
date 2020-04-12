@@ -11,6 +11,9 @@
 		F12F9ACA244302D700289DA8 /* PhotoTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F12F9AC9244302D700289DA8 /* PhotoTableView.xib */; };
 		F12F9ACC2443039B00289DA8 /* PhotoTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12F9ACB2443039B00289DA8 /* PhotoTableView.swift */; };
 		F12F9ACE244306B200289DA8 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12F9ACD244306B200289DA8 /* Photo.swift */; };
+		F12F9AD02443180500289DA8 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12F9ACF2443180500289DA8 /* Network.swift */; };
+		F12F9AD324434A0400289DA8 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12F9AD224434A0400289DA8 /* MockURLSession.swift */; };
+		F12F9AD524436CD600289DA8 /* Configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = F12F9AD424436CD500289DA8 /* Configuration.plist */; };
 		F14CFD03243C5C3000C081B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CFD02243C5C3000C081B0 /* AppDelegate.swift */; };
 		F14CFD05243C5C3000C081B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CFD04243C5C3000C081B0 /* SceneDelegate.swift */; };
 		F14CFD0A243C5C3000C081B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F14CFD08243C5C3000C081B0 /* Main.storyboard */; };
@@ -35,6 +38,9 @@
 		F12F9AC9244302D700289DA8 /* PhotoTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoTableView.xib; sourceTree = "<group>"; };
 		F12F9ACB2443039B00289DA8 /* PhotoTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTableView.swift; sourceTree = "<group>"; };
 		F12F9ACD244306B200289DA8 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		F12F9ACF2443180500289DA8 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		F12F9AD224434A0400289DA8 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		F12F9AD424436CD500289DA8 /* Configuration.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Configuration.plist; sourceTree = "<group>"; };
 		F14CFCFF243C5C3000C081B0 /* MoveFastPhoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoveFastPhoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F14CFD02243C5C3000C081B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F14CFD04243C5C3000C081B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +83,7 @@
 		F12F9AC22442FFE000289DA8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F12F9ACF2443180500289DA8 /* Network.swift */,
 				F12F9ACD244306B200289DA8 /* Photo.swift */,
 			);
 			path = Models;
@@ -96,6 +103,14 @@
 				F12F9ACB2443039B00289DA8 /* PhotoTableView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		F12F9AD1244349EF00289DA8 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				F12F9AD224434A0400289DA8 /* MockURLSession.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		F14CFCF6243C5C3000C081B0 = {
@@ -121,6 +136,7 @@
 			children = (
 				F14CFD02243C5C3000C081B0 /* AppDelegate.swift */,
 				F14CFD0E243C5C3200C081B0 /* Assets.xcassets */,
+				F12F9AD424436CD500289DA8 /* Configuration.plist */,
 				F12F9AC12442FFD600289DA8 /* Controllers */,
 				F14CFD13243C5C3200C081B0 /* Info.plist */,
 				F14CFD10243C5C3200C081B0 /* LaunchScreen.storyboard */,
@@ -128,6 +144,7 @@
 				F12F9AC22442FFE000289DA8 /* Models */,
 				F14CFD0B243C5C3000C081B0 /* MoveFastPhoto.xcdatamodeld */,
 				F14CFD04243C5C3000C081B0 /* SceneDelegate.swift */,
+				F12F9AD1244349EF00289DA8 /* Utilities */,
 				F12F9AC42442FFF900289DA8 /* Views */,
 				F12F9AC32442FFF200289DA8 /* Xibs */,
 			);
@@ -225,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F12F9ACA244302D700289DA8 /* PhotoTableView.xib in Resources */,
+				F12F9AD524436CD600289DA8 /* Configuration.plist in Resources */,
 				F14CFD12243C5C3200C081B0 /* LaunchScreen.storyboard in Resources */,
 				F14CFD0F243C5C3200C081B0 /* Assets.xcassets in Resources */,
 				F14CFD0A243C5C3000C081B0 /* Main.storyboard in Resources */,
@@ -245,11 +263,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F12F9AD324434A0400289DA8 /* MockURLSession.swift in Sources */,
 				F12F9ACE244306B200289DA8 /* Photo.swift in Sources */,
 				F12F9ACC2443039B00289DA8 /* PhotoTableView.swift in Sources */,
 				F12F9AC62443001A00289DA8 /* PhotoTableViewController.swift in Sources */,
 				F14CFD0D243C5C3000C081B0 /* MoveFastPhoto.xcdatamodeld in Sources */,
 				F14CFD03243C5C3000C081B0 /* AppDelegate.swift in Sources */,
+				F12F9AD02443180500289DA8 /* Network.swift in Sources */,
 				F14CFD05243C5C3000C081B0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
