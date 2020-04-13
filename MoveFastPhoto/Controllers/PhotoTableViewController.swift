@@ -25,7 +25,7 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
         photoTableView.delegate = self
         
         for n in 1...40 {
-            photos.append(Photo(photoUrl: "test \(n)"))
+            photos.append(Photo(id: "Test \(n)", width: 0, height: 0, color: "", selfLink: "", rawUrl: ""))
         }
         
         // Register table view cell
@@ -56,7 +56,7 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
         let photoCellView = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath)
 
         let photo = photos[indexPath.row]
-        photoCellView.textLabel?.text = photo.photoUrl
+        photoCellView.textLabel?.text = photo.id
 
         return photoCellView
     }

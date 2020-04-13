@@ -13,7 +13,7 @@ class Network {
     
     func getPhotos(page: Int = 1,
                     limit: Int = 10,
-                    completionHandler: @escaping ([Photo]?, Bool?) -> Void) {
+                    completionHandler: @escaping ([Photo]?, Bool) -> Void) {
         
         session = URLSession.shared
         
@@ -48,8 +48,10 @@ class Network {
             
             do {
                 if let photosJson = try JSONSerialization.jsonObject(with: data!, options: []) as? [Any] {
-                    for p in photosJson {
-                        
+                    for case let p in photosJson {
+                        if let photo = Photo(json: p as! [String : Any]) {
+                            photos.append(photo)
+                        }
                     }
                 }
             }  catch let serializationError as NSError {
@@ -61,14 +63,5 @@ class Network {
         }
         task.resume()
         
-//        AF.request(recordsUrl, parameters: params).validate().responseJSON { response in
-//            switch response.result {
-//                case .success:
-//                    completionHandler(response.value,true)
-//                case .failure:
-//                    completionHandler(nil, false)
-//            }
-//
-//        }
     }
 }
