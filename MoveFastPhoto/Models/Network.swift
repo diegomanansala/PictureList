@@ -13,7 +13,7 @@ class Network {
     static let sharedInstance = Network()
     
     // We store all ongoing tasks here to avoid duplicating tasks.
-    fileprivate var downloadTasks = [URLSessionTask]()
+    fileprivate var downloadTasks = [String : URLSessionTask]()
     var session: MyURLSession!
     
     func getPhotos(page: Int = 1,
@@ -41,10 +41,7 @@ class Network {
             
             if page == 1 {
                 // consider as refresh
-                self.downloadTasks.forEach { (downloadTask) in
-                    downloadTask.cancel()
-                }
-                self.downloadTasks = []
+                self.downloadTasks = [String : URLSessionTask]()
             }
             
             if let _ = error {
@@ -83,17 +80,17 @@ class Network {
     }
     
     // based on https://andreygordeev.com/2017/02/20/uitableview-prefetching/
-    func downloadPhoto(_ fromUrl: URL, completionHandler: @escaping (Data?, Bool) -> Void) {
-        guard self.downloadTasks.firstIndex(where: { $0.originalRequest?.url == fromUrl && ($0.state == .running || $0.state == .completed) }) == nil else {
-            // We're already downloading the image.
+    func downloadPhoto(_ fromUrl: URL, imageId: String, completionHandler: @escaping (Data?, Bool) -> Void) {
+        if let downloadTask = downloadTasks[imageId],
+        downloadTask.state == .running || downloadTask.state == .completed {
+            // We're already downloading the image
+//            print(downloadTask.originalRequest?.url?.absoluteString ?? "")
             return
         }
         
         let task = session.dataTask(with: fromUrl) { (data, response, error) in
-            //TODO: Figure out how to handle errors in downloading. Check if URLSessionDataTask can be accessed from completion handler
-            
             func requestFailed() -> Void {
-                self.cancelDownloadingPhoto(fromUrl)
+                self.cancelDownloadingPhoto(imageId: imageId)
                 completionHandler(nil, false)
             }
             
@@ -114,19 +111,16 @@ class Network {
             }
         }
         task.resume()
-        self.downloadTasks.append(task)
+        self.downloadTasks[imageId] = task
     }
     
-    func cancelDownloadingPhoto(_ fromUrl: URL) {
+    func cancelDownloadingPhoto(imageId: String) {
 
-        // Find a task with given URL, cancel it and delete from `tasks` array.
-        
-        guard let taskIndex = self.downloadTasks.firstIndex(where: { $0.originalRequest?.url == fromUrl }) else {
-            return
+        // Get task with given image id, and cancel it from `tasks` dictionary.
+        if let task = downloadTasks[imageId],
+        task.state == .running {
+            task.cancel()
+//            downloadTasks.removeValue(forKey: imageId)
         }
-
-        let task = downloadTasks[taskIndex]
-        task.cancel()
-        downloadTasks.remove(at: taskIndex)
     }
 }

@@ -28,6 +28,7 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
     var isLoadingMore = false
     
     let cellReuseIdentifier = "photoCellViewReuseIdentifier"
+    let loadingCellReuseIdentifier = "loadingCellViewReuseIdentifier"
     let per_page = 10
     
     
@@ -59,6 +60,10 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
         // Register custom table view cell
         let photoTableViewCellNib = UINib(nibName: "PhotoTableViewCell", bundle: nil)
         photoTableView.register(photoTableViewCellNib, forCellReuseIdentifier: cellReuseIdentifier)
+        
+        // Register Loading Cell
+        let loadingTableViewCellNib = UINib(nibName: "LoadingTableViewCell", bundle: nil)
+        photoTableView.register(loadingTableViewCellNib, forCellReuseIdentifier: loadingCellReuseIdentifier)
         
         self.title = "Photos"
         self.view = photoTableView
@@ -116,34 +121,27 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
             WebServices.loadPhotos(page: self.page + 1, per_page: self.per_page) { (results, success) in
                 if success,
                 let results = results {
-                    self.page = self.page + 1
-                    DispatchQueue.global().async {
-                        self.photos += results
-                        DispatchQueue.main.async {
-                            self.photoTableView.reloadData()
-                            return
+                    if results.count > 0 {
+                        self.page = self.page + 1
+                        DispatchQueue.global().async {
+                            self.photos += results
+                            DispatchQueue.main.async {
+                                self.photoTableView.reloadData()
+                                self.isLoadingMore = false
+                            }
+                        }
+                    } else if results.count == 0 && self.isAtBottom(self.photoTableView) {
+                        DispatchQueue.global().async {
+                            DispatchQueue.main.async {
+                                // calculate Y of last cell before the loading cell
+                                let scrollToY = self.photoTableView.contentSize.height - self.photoTableView.frame.size.height - 55.0
+                                // scroll up to last cell before the loading cell to avoid continually calling loadMoreData
+                                self.photoTableView.setContentOffset(CGPoint(x: 0.0, y: scrollToY), animated: true)
+                            }
                         }
                     }
                 }
             }
-            
-//            let page = self.page + 1
-//            WebServices.loadRecords(offset: offset, limit: self.limit, refresh: false) { (success) in
-//                let moreCookingRecords = self.loadCookingRecords(offset: offset, limit: self.limit)
-//
-//                if moreCookingRecords.count > 0 {
-//                    // only reload the table if there are new entries
-//                    self.cookingRecords += moreCookingRecords
-//                    self.cookingRecordTableView.cookingRecordTable.reloadData()
-//                } else if (moreCookingRecords.count == 0 && self.isAtBottom(self.cookingRecordTableView.cookingRecordTable)) {
-//                    // calculate Y of last cell before the loading cell
-//                    let scrollToY = self.cookingRecordTableView.cookingRecordTable.contentSize.height - self.cookingRecordTableView.cookingRecordTable.frame.size.height - 55.0
-//
-//                    // scroll up to last cell before the loading cell to avoid continually calling loadMoreData
-//                    self.cookingRecordTableView.cookingRecordTable.setContentOffset(CGPoint(x: 0.0, y: scrollToY), animated: true)
-//                }
-//                self.isLoadingMore = false
-//            }
         }
     }
     
@@ -163,14 +161,27 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return imageHeight
+        if indexPath.section == 0 {
+            return imageHeight
+        } else {
+            return CGFloat(55.0) // Loading cell height
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return imageHeight
+        if indexPath.section == 0 {
+            return imageHeight
+        } else {
+            return CGFloat(55.0) // Loading cell height
+        }
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
+        // Do not display the load more cell when there are no records to show
+        if photos.count > 0 {
+            return 2
+        }
+        
         return 1
     }
 
@@ -183,40 +194,57 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
             }
         } else {
             self.photoTableView.restore()
+            
+            if section == 1 {
+                // For the loading cell
+                return 1
+            }
         }
-
+        
         return photos.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let photoTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! PhotoTableViewCell
-        
-        if let imageView = photoTableViewCell.photo {
-            if let image = self.photos[indexPath.row].image {
-                DispatchQueue.main.async {
-                    imageView.image = image
+        if indexPath.section == 0 {
+            let photoTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as! PhotoTableViewCell
+            
+            if let imageView = photoTableViewCell.photo {
+                if let image = self.photos[indexPath.row].image {
+                    DispatchQueue.main.async {
+                        imageView.image = image
+                    }
+                } else {
+                    imageView.image = nil
+                    self.getImage(forItemAtIndex: indexPath.row)
                 }
-            } else {
-                imageView.image = nil
-                self.getImage(forItemAtIndex: indexPath.row)
             }
+            
+            return photoTableViewCell
         }
         
-        return photoTableViewCell
+        let loadingTableViewCell = tableView.dequeueReusableCell(withIdentifier: loadingCellReuseIdentifier, for: indexPath) as! LoadingTableViewCell
+        loadingTableViewCell.activityIndicator.startAnimating()
+        return loadingTableViewCell
+        
     }
     
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         print("prefetchRowsAt \(indexPaths)")
         indexPaths.forEach { (idxPath) in
-            self.getImage(forItemAtIndex: idxPath.row)
+            if idxPath.section == 0 {
+                self.getImage(forItemAtIndex: idxPath.row)
+            }
+            
         }
     }
     
     func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
         print("cancelPrefetchingForRowsAt \(indexPaths)")
         indexPaths.forEach { (idxPath) in
-            self.cancelGetImage(forItemAtIndex: idxPath.row)
+            if idxPath.section == 0 {
+                self.cancelGetImage(forItemAtIndex: idxPath.row)
+            }
         }
     }
     
@@ -224,14 +252,13 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
         let network = Network.sharedInstance
         guard let thumbnailUrl =  URL(string: self.photos[index].rawUrl + "&" + self.thumbnailParams!)
             else { fatalError() }
-        network.downloadPhoto(thumbnailUrl) { (data, success) in
+        
+        network.downloadPhoto(thumbnailUrl, imageId: self.photos[index].id) { (data, success) in
             // Perform UI changes only on main thread.
             if success {
                 DispatchQueue.main.async {
                     if let data = data, let image = UIImage(data: data) {
-//                        print(thumbnailUrl)
                         self.photos[index].thumbnailUrl = thumbnailUrl
-//                        print(self.photos[index].thumbnailUrl!)
                         self.photos[index].image = image
                         // Reload cell with fade animation.
                         let indexPath = IndexPath(row: index, section: 0)
@@ -247,8 +274,33 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
     fileprivate func cancelGetImage(forItemAtIndex index: Int) {
         let network = Network.sharedInstance
         
-        if let thumbnailUrl = self.photos[index].thumbnailUrl {
-            network.cancelDownloadingPhoto(thumbnailUrl)
+        if let _ = self.photos[index].thumbnailUrl {
+            network.cancelDownloadingPhoto(imageId: self.photos[index].id)
         }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if photos.count > 0 {
+            // Run loadMoreData only when user scrolls to the bottom
+            // and there is no load more request currently running
+            if self.isAtBottom(scrollView) && !self.isLoadingMore {
+                self.loadMoreData()
+            }
+        }
+    }
+    
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        // this delegate will only be called when the table view animates up after a load more call returns empty
+        self.isLoadingMore = false
+    }
+    
+    func isAtBottom(_ scrollView: UIScrollView) -> Bool {
+        let height = scrollView.frame.size.height
+        let contentYoffset = scrollView.contentOffset.y
+//        let distanceFromBottom = scrollView.contentSize.height - contentYoffset
+        let distanceFromBottom = scrollView.contentSize.height - contentYoffset - 55.0
+        
+        return distanceFromBottom < height
     }
 }
