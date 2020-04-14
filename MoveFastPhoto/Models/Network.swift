@@ -36,7 +36,6 @@ class Network {
         photosUrlRequest.addValue("Client-ID \(access_key ?? "")", forHTTPHeaderField: "Authorization")
         photosUrlRequest.timeoutInterval = 10
         
-        
         let task = session.dataTask(with: photosUrlRequest) { (data, response, error) in
             var photos: [Photo] = []
             
@@ -81,17 +80,20 @@ class Network {
     }
     
     // based on https://andreygordeev.com/2017/02/20/uitableview-prefetching/
-    func downloadPhoto(_ fromUrl: URL, imageId: String, completionHandler: @escaping (Data?, Bool) -> Void) {
-        if let downloadTask = downloadTasks[imageId],
-        downloadTask.state == .running || downloadTask.state == .completed {
+    func downloadPhoto(_ fromUrl: URL, key: String, forItemAtIndex: Int? = 0, completionHandler: @escaping (Data?, Bool) -> Void) {
+        if let downloadTask = downloadTasks[key],
+            downloadTask.state == .completed || (downloadTask.state == .running && downloadTask.originalRequest?.url?.absoluteString == fromUrl.absoluteString) {
             // We're already downloading the image
-//            print(downloadTask.originalRequest?.url?.absoluteString ?? "")
             return
         }
         
-        let task = session.dataTask(with: fromUrl) { (data, response, error) in
+        var downloadUrlRequest = URLRequest(url: fromUrl)
+        downloadUrlRequest.timeoutInterval = 10
+        
+        let task = session.dataTask(with: downloadUrlRequest) { (data, response, error) in
+            
             func requestFailed() -> Void {
-                self.cancelDownloadingPhoto(imageId: imageId)
+                self.cancelDownloadingPhoto(key: key)
                 completionHandler(nil, false)
             }
             
@@ -111,17 +113,23 @@ class Network {
                 return
             }
         }
+        
         task.resume()
-        self.downloadTasks[imageId] = task
+        self.downloadTasks[key] = task
     }
     
-    func cancelDownloadingPhoto(imageId: String) {
+    func cancelDownloadingPhoto(key: String) {
 
         // Get task with given image id, and cancel it from `tasks` dictionary.
-        if let task = downloadTasks[imageId],
+        if let task = downloadTasks[key],
         task.state == .running {
             task.cancel()
-//            downloadTasks.removeValue(forKey: imageId)
+            if let _ = downloadTasks.removeValue(forKey: key) {
+                print("\(key) removed")
+            } else {
+                print("\(key) already removed")
+            }
+            
         }
     }
 }

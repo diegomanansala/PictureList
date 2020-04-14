@@ -253,11 +253,17 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
         guard let thumbnailUrl =  URL(string: self.photos[index].rawUrl + "&" + self.thumbnailParams!)
             else { fatalError() }
         
-        network.downloadPhoto(thumbnailUrl, imageId: self.photos[index].id) { (data, success) in
+        // use index and photo id as a composite key.
+        // due to Unsplash API's caching, the same image might return on different pages
+        // composite key will treat the two images at different indices as separate entities
+        network.downloadPhoto(thumbnailUrl, key: "\(index)+\(self.photos[index].id)", forItemAtIndex: index) { (data, success) in
             // Perform UI changes only on main thread.
             if success {
+                
                 DispatchQueue.main.async {
-                    if let data = data, let image = UIImage(data: data) {
+                    if let data = data,
+                    let image = UIImage(data: data),
+                    index < self.photos.count {
                         self.photos[index].thumbnailUrl = thumbnailUrl
                         self.photos[index].image = image
                         // Reload cell with fade animation.
@@ -275,7 +281,7 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
         let network = Network.sharedInstance
         
         if let _ = self.photos[index].thumbnailUrl {
-            network.cancelDownloadingPhoto(imageId: self.photos[index].id)
+            network.cancelDownloadingPhoto(key: "\(index)+\(self.photos[index].id)")
         }
     }
     
