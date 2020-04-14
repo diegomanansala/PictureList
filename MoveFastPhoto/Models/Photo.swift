@@ -6,6 +6,8 @@
 //  Copyright © 2020 Diego Karlo Manansala. All rights reserved.
 //
 
+import UIKit
+
 struct Photo {
     let id: String
     let width: Int
@@ -13,6 +15,8 @@ struct Photo {
     let color: String
     let selfLink: String
     let rawUrl: String
+    var image: UIImage?
+    var thumbnailUrl: URL?
 }
 
 extension Photo {
