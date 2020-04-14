@@ -18,10 +18,29 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="UwN-Rh-w8O"/>
+                    <connections>
+                        <segue destination="9eo-JG-9mV" kind="show" identifier="showPhotoDetailsSegue" id="uq1-bT-9vP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1743" y="116"/>
+            <point key="canvasLocation" x="1780" y="116"/>
+        </scene>
+        <!--Photo Details View Controller-->
+        <scene sceneID="Ubr-6x-Jsk">
+            <objects>
+                <viewController id="9eo-JG-9mV" customClass="PhotoDetailsViewController" customModule="MoveFastPhoto" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qve-MS-OiA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="qQN-ik-9Fn"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="aRa-nK-F2a"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jF7-JK-Qvs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2636" y="116"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="sLK-BA-kAN">
