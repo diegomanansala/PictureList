@@ -45,7 +45,7 @@ class MoveFastPhotoTests: XCTestCase {
         let promise = expectation(description: "Movies")
         var imagesResponse: [Photo]?
         var successResponse: Bool?
-        self.networkApi.getPhotos(page: 1, limit: 10, completionHandler: { (images, success) in
+        self.networkApi.getPhotos(page: 1, per_page: 10, completionHandler: { (images, success) in
             imagesResponse = images
             successResponse = success
             promise.fulfill()
@@ -54,6 +54,22 @@ class MoveFastPhotoTests: XCTestCase {
         waitForExpectations(timeout: 8) { (error) in
             XCTAssertTrue(successResponse ?? false)
             XCTAssertEqual(imagesResponse!.count, 10)
+        }
+    }
+    
+    func testGetPhotosSuccessReturns20Images() {
+        let promise = expectation(description: "Movies")
+        var imagesResponse: [Photo]?
+        var successResponse: Bool?
+        self.networkApi.getPhotos(page: 1, per_page: 20, completionHandler: { (images, success) in
+            imagesResponse = images
+            successResponse = success
+            promise.fulfill()
+        })
+        
+        waitForExpectations(timeout: 8) { (error) in
+            XCTAssertTrue(successResponse ?? false)
+            XCTAssertEqual(imagesResponse!.count, 20)
         }
     }
 
