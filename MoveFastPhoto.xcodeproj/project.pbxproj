@@ -17,6 +17,8 @@
 		F12F9AD7244437EA00289DA8 /* WebServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12F9AD6244437EA00289DA8 /* WebServices.swift */; };
 		F12F9AE72444D30200289DA8 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12F9AE62444D30200289DA8 /* PhotoTableViewCell.swift */; };
 		F12F9AE92444D32D00289DA8 /* PhotoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F12F9AE82444D32D00289DA8 /* PhotoTableViewCell.xib */; };
+		F12F9AEF24457A9A00289DA8 /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12F9AEE24457A9A00289DA8 /* LoadingTableViewCell.swift */; };
+		F12F9AF124457AB200289DA8 /* LoadingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F12F9AF024457AB200289DA8 /* LoadingTableViewCell.xib */; };
 		F14CFD03243C5C3000C081B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CFD02243C5C3000C081B0 /* AppDelegate.swift */; };
 		F14CFD05243C5C3000C081B0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CFD04243C5C3000C081B0 /* SceneDelegate.swift */; };
 		F14CFD0A243C5C3000C081B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F14CFD08243C5C3000C081B0 /* Main.storyboard */; };
@@ -47,6 +49,8 @@
 		F12F9AD6244437EA00289DA8 /* WebServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebServices.swift; sourceTree = "<group>"; };
 		F12F9AE62444D30200289DA8 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
 		F12F9AE82444D32D00289DA8 /* PhotoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoTableViewCell.xib; sourceTree = "<group>"; };
+		F12F9AEE24457A9A00289DA8 /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingTableViewCell.swift; sourceTree = "<group>"; };
+		F12F9AF024457AB200289DA8 /* LoadingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingTableViewCell.xib; sourceTree = "<group>"; };
 		F14CFCFF243C5C3000C081B0 /* MoveFastPhoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoveFastPhoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F14CFD02243C5C3000C081B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F14CFD04243C5C3000C081B0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +105,7 @@
 			children = (
 				F12F9AC9244302D700289DA8 /* PhotoTableView.xib */,
 				F12F9AE82444D32D00289DA8 /* PhotoTableViewCell.xib */,
+				F12F9AF024457AB200289DA8 /* LoadingTableViewCell.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -110,6 +115,7 @@
 			children = (
 				F12F9ACB2443039B00289DA8 /* PhotoTableView.swift */,
 				F12F9AE62444D30200289DA8 /* PhotoTableViewCell.swift */,
+				F12F9AEE24457A9A00289DA8 /* LoadingTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -256,6 +262,7 @@
 				F14CFD12243C5C3200C081B0 /* LaunchScreen.storyboard in Resources */,
 				F14CFD0F243C5C3200C081B0 /* Assets.xcassets in Resources */,
 				F14CFD0A243C5C3000C081B0 /* Main.storyboard in Resources */,
+				F12F9AF124457AB200289DA8 /* LoadingTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +287,7 @@
 				F12F9AC62443001A00289DA8 /* PhotoTableViewController.swift in Sources */,
 				F14CFD0D243C5C3000C081B0 /* MoveFastPhoto.xcdatamodeld in Sources */,
 				F14CFD03243C5C3000C081B0 /* AppDelegate.swift in Sources */,
+				F12F9AEF24457A9A00289DA8 /* LoadingTableViewCell.swift in Sources */,
 				F12F9AD02443180500289DA8 /* Network.swift in Sources */,
 				F14CFD05243C5C3000C081B0 /* SceneDelegate.swift in Sources */,
 				F12F9AD7244437EA00289DA8 /* WebServices.swift in Sources */,
