@@ -34,6 +34,7 @@ class Network {
         
         var photosUrlRequest = URLRequest(url: (photosUrl?.url)!)
         photosUrlRequest.addValue("Client-ID \(access_key ?? "")", forHTTPHeaderField: "Authorization")
+        photosUrlRequest.timeoutInterval = 10
         
         
         let task = session.dataTask(with: photosUrlRequest) { (data, response, error) in
