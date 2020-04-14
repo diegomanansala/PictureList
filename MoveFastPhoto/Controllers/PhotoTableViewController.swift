@@ -29,6 +29,7 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
     
     let cellReuseIdentifier = "photoCellViewReuseIdentifier"
     let loadingCellReuseIdentifier = "loadingCellViewReuseIdentifier"
+    let showPhotoDetailsSegue = "showPhotoDetailsSegue"
     let per_page = 10
     
     
@@ -69,6 +70,15 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
         self.view = photoTableView
         
         self.refreshTable()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+//        DispatchQueue.global().async {
+//            DispatchQueue.main.async {
+//                self.navigationController?.setNavigationBarHidden(true, animated: animated)
+//            }
+//        }
     }
     
     func refreshTable(completionHandler: (() -> Void)? = nil) {
@@ -245,6 +255,27 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
             if idxPath.section == 0 {
                 self.cancelGetImage(forItemAtIndex: idxPath.row)
             }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        self.performSegue(withIdentifier: showPhotoDetailsSegue, sender: indexPath)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        if
+            segue.identifier == showPhotoDetailsSegue,
+            let photoDetailsViewController = segue.destination as? PhotoDetailsViewController,
+            let indexPath = sender as? IndexPath
+        {
+            let row = indexPath.row
+            let photo = photos[row]
+            photoDetailsViewController.photoId = photo.id
+            photoDetailsViewController.photoRawUrl = photo.rawUrl
+            photoDetailsViewController.bgColor = photo.color.uppercased()
         }
     }
     

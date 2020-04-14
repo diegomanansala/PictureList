@@ -8,14 +8,30 @@
 
 import UIKit
 
-class PhotoDetailsView: UIView {
+protocol PhotoDetailsViewDelegate
+{
+    func didPressCloseButton()
+}
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+extension PhotoDetailsViewDelegate {
+    
+    func didPressCloseButton() {}
+}
+
+
+class PhotoDetailsView: UIView {
+    
+    var delegate:PhotoDetailsViewDelegate?
+
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var photo: UIImageView!
+    @IBOutlet weak var imageContainerView: UIView!
+    @IBOutlet weak var closeButton: UIButton!
+    
+    
+    @IBAction func pressedCloseButton(_ sender: Any) {
+        delegate?.didPressCloseButton()
     }
-    */
+    
 
 }

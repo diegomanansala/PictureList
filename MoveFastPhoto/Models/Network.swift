@@ -118,6 +118,37 @@ class Network {
         self.downloadTasks[key] = task
     }
     
+    func downloadPhoto(_ fromUrl: URL, completionHandler: @escaping (Data?, Bool) -> Void) {
+        
+        var downloadUrlRequest = URLRequest(url: fromUrl)
+        downloadUrlRequest.timeoutInterval = 10
+        
+        let task = session.dataTask(with: downloadUrlRequest) { (data, response, error) in
+            
+            func requestFailed() -> Void {
+                completionHandler(nil, false)
+            }
+            
+            if let _ = error {
+                requestFailed()
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode) else {
+                requestFailed()
+                return
+            }
+            
+            if let data = data {
+                completionHandler(data, true)
+                return
+            }
+        }
+        
+        task.resume()
+    }
+    
     func cancelDownloadingPhoto(key: String) {
 
         // Get task with given image id, and cancel it from `tasks` dictionary.
