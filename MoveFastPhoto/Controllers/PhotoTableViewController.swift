@@ -285,6 +285,10 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
             photoDetailsViewController.photoId = photo.id
             photoDetailsViewController.photoRawUrl = photo.rawUrl
             photoDetailsViewController.bgColor = photo.color.uppercased()
+            photoDetailsViewController.photoDescription = photo.imageDescription
+            photoDetailsViewController.photoLikes = photo.likes
+            photoDetailsViewController.photoWidth = photo.width
+            photoDetailsViewController.photoHeight = photo.height
         }
     }
     
