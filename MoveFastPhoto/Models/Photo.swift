@@ -10,6 +10,8 @@ import UIKit
 
 struct Photo {
     let id: String
+    let imageDescription: String?
+    let likes: Int
     let width: Int
     let height: Int
     let color: String
@@ -22,6 +24,8 @@ struct Photo {
 extension Photo {
     init?(json: [String: Any]) {
         guard let id = json["id"] as? String,
+            let imageDescription = json["description"] as? String,
+            let likes = json["likes"] as? Int,
             let width = json["width"] as? Int,
             let height = json["height"] as? Int,
             let color = json["color"] as? String,
@@ -34,6 +38,8 @@ extension Photo {
         }
 
         self.id = id
+        self.imageDescription = imageDescription
+        self.likes = likes
         self.width = width
         self.height = height
         self.color = color
