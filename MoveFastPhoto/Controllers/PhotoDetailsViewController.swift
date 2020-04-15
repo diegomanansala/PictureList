@@ -13,7 +13,13 @@ class PhotoDetailsViewController: UIViewController, PhotoDetailsViewDelegate {
     var photoDetailsView : PhotoDetailsView!
     var photoId : String?
     var photoRawUrl : String?
+    var photoDescription : String?
+    var photoLikes : Int?
+    var photoWidth : Int?
+    var photoHeight : Int?
     var bgColor: String?
+    
+    var metaDataIsHidden = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -29,7 +35,6 @@ class PhotoDetailsViewController: UIViewController, PhotoDetailsViewDelegate {
 
         if var backgroundColor = self.bgColor {
             DispatchQueue.global().async {
-                print(backgroundColor)
                 backgroundColor.remove(at: backgroundColor.startIndex)
                 var rgbValue:UInt64 = 0
                 Scanner(string: backgroundColor).scanHexInt64(&rgbValue)
@@ -71,7 +76,6 @@ class PhotoDetailsViewController: UIViewController, PhotoDetailsViewDelegate {
             guard let photoUrl =  URL(string: url + "&" + imageParams)
                 else { fatalError() }
             let network = Network.sharedInstance
-            print(photoUrl)
             
             network.downloadPhoto(photoUrl) { (data, success) in
                 // Perform UI changes only on main thread.
@@ -92,28 +96,69 @@ class PhotoDetailsViewController: UIViewController, PhotoDetailsViewDelegate {
                 }
             }
         }
-//
-//        if let photoId = photoId {
-//            // load photo details
-//        }
         
-//        if let comment = cookingRecordImageComment {
-//            displayRecordView.cookingRecordCommentLabel.text = comment
-//            displayRecordView.cookingRecordCommentLabel.numberOfLines = 0
-//            displayRecordView.cookingRecordCommentLabel.sizeToFit()
-//            displayRecordView.cookingRecordCommentLabel.layoutIfNeeded()
-//        }
-
+        var metaDataText = ""
         
+        if let photoDescription = self.photoDescription {
+            metaDataText += "\(photoDescription)\n\n"
+        }
+        
+        if let photoLikes = self.photoLikes {
+            metaDataText += "Likes: \(photoLikes)\n"
+        }
+        
+        if let photoWidth = self.photoWidth,
+        let photoHeight = self.photoHeight {
+            metaDataText += "Dimensions: \(photoWidth) x \(photoHeight)\n"
+        }
+        
+        if metaDataText.count > 0 {
+            photoDetailsView.imageMetaData.text = metaDataText
+            
+            
+            photoDetailsView.imageMetaData.numberOfLines = 0
+            photoDetailsView.imageMetaData.sizeToFit()
+            photoDetailsView.imageMetaData.layoutIfNeeded()
+            
+            // add tap gesture to image
+            if let imageView = photoDetailsView.photo {
+                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+                imageView.isUserInteractionEnabled = true
+                imageView.addGestureRecognizer(tapGestureRecognizer)
+            }
+        }
+        
+        
+            
+        
+        
+        
+        self.metaDataIsHidden = false
     }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         
+        self.photoDetailsView.imageMetaDataContainer.alpha = 1
+        self.photoDetailsView.closeButton.alpha = 1
+        
         if let imageView = self.photoDetailsView.photo {
             imageView.image = nil
         }
+    }
+    
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        // Your action
+        self.metaDataIsHidden = !self.metaDataIsHidden
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.2) {
+                self.photoDetailsView.imageMetaDataContainer.alpha = self.metaDataIsHidden ? 0 : 1
+                self.photoDetailsView.closeButton.alpha = self.metaDataIsHidden ? 0 : 1
+            }
+        }
+        
     }
     
     func didPressCloseButton() {
