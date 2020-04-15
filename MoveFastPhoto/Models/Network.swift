@@ -11,6 +11,7 @@ import Foundation
 class Network {
     
     static let sharedInstance = Network()
+    let timeout = 15.0
     
     // We store all ongoing tasks here to avoid duplicating tasks.
     fileprivate var downloadTasks = [String : URLSessionTask]()
@@ -34,7 +35,7 @@ class Network {
         
         var photosUrlRequest = URLRequest(url: (photosUrl?.url)!)
         photosUrlRequest.addValue("Client-ID \(access_key ?? "")", forHTTPHeaderField: "Authorization")
-        photosUrlRequest.timeoutInterval = 10
+        photosUrlRequest.timeoutInterval = self.timeout
         
         let task = session.dataTask(with: photosUrlRequest) { (data, response, error) in
             var photos: [Photo] = []
@@ -88,7 +89,7 @@ class Network {
         }
         
         var downloadUrlRequest = URLRequest(url: fromUrl)
-        downloadUrlRequest.timeoutInterval = 10
+        downloadUrlRequest.timeoutInterval = self.timeout
         
         let task = session.dataTask(with: downloadUrlRequest) { (data, response, error) in
             
