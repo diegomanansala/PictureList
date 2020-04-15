@@ -150,6 +150,15 @@ class PhotoTableViewController: UIViewController, UITableViewDataSource, UITable
                             }
                         }
                     }
+                } else {
+                    DispatchQueue.global().async {
+                        DispatchQueue.main.async {
+                            // calculate Y of last cell before the loading cell
+                            let scrollToY = self.photoTableView.contentSize.height - self.photoTableView.frame.size.height - 55.0
+                            // scroll up to last cell before the loading cell to avoid continually calling loadMoreData
+                            self.photoTableView.setContentOffset(CGPoint(x: 0.0, y: scrollToY), animated: true)
+                        }
+                    }
                 }
             }
         }
