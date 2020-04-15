@@ -27,11 +27,11 @@ class PhotoDetailsView: UIView {
     @IBOutlet weak var photo: UIImageView!
     @IBOutlet weak var imageContainerView: UIView!
     @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var imageMetaDataContainer: UIView!
+    @IBOutlet weak var imageMetaData: UILabel!
     
     
     @IBAction func pressedCloseButton(_ sender: Any) {
         delegate?.didPressCloseButton()
     }
-    
-
 }

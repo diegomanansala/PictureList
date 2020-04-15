@@ -16,9 +16,12 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ZX-9I-uUA">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="qk4-28-Vzb">
+                            <rect key="frame" x="169" y="315" width="37" height="37"/>
+                        </activityIndicatorView>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="xnq-eg-vBy">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="KEW-EJ-9r2">
                             <rect key="frame" x="16" y="0.0" width="39" height="30"/>
@@ -29,9 +32,6 @@
                                 <action selector="pressedCloseButton:" destination="gjT-5X-BjZ" eventType="touchUpInside" id="Tuq-la-bj6"/>
                             </connections>
                         </button>
-                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="qk4-28-Vzb">
-                            <rect key="frame" x="169" y="315" width="37" height="37"/>
-                        </activityIndicatorView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
@@ -39,19 +39,39 @@
                         <constraint firstItem="qk4-28-Vzb" firstAttribute="centerX" secondItem="7ZX-9I-uUA" secondAttribute="centerX" id="lUr-JG-IoD"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gHZ-4l-1sQ">
+                    <rect key="frame" x="0.0" y="533.5" width="375" height="133.5"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xv4-TR-hMa">
+                            <rect key="frame" x="8" y="8" width="359" height="118"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                            <color key="textColor" red="0.97254901959999995" green="0.96470588239999999" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.14999999999999999" alpha="0.25" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="Ojq-ig-CH2" firstAttribute="trailing" secondItem="7ZX-9I-uUA" secondAttribute="trailing" id="7Tr-rv-hjO"/>
                 <constraint firstItem="7ZX-9I-uUA" firstAttribute="leading" secondItem="Ojq-ig-CH2" secondAttribute="leading" id="Hlr-zk-KuV"/>
                 <constraint firstItem="7ZX-9I-uUA" firstAttribute="top" secondItem="Ojq-ig-CH2" secondAttribute="top" id="OII-Ok-UGy"/>
+                <constraint firstItem="gHZ-4l-1sQ" firstAttribute="leading" secondItem="Ojq-ig-CH2" secondAttribute="leading" id="Vmo-0b-ric"/>
+                <constraint firstItem="Ojq-ig-CH2" firstAttribute="bottom" secondItem="gHZ-4l-1sQ" secondAttribute="bottom" id="aHe-kw-7lT"/>
+                <constraint firstItem="gHZ-4l-1sQ" firstAttribute="width" secondItem="gjT-5X-BjZ" secondAttribute="width" id="c6o-A5-Vic"/>
                 <constraint firstItem="Ojq-ig-CH2" firstAttribute="bottom" secondItem="7ZX-9I-uUA" secondAttribute="bottom" id="g7S-zk-il4"/>
+                <constraint firstItem="Ojq-ig-CH2" firstAttribute="trailing" secondItem="gHZ-4l-1sQ" secondAttribute="trailing" id="nPa-Kw-EjT"/>
+                <constraint firstItem="gHZ-4l-1sQ" firstAttribute="height" secondItem="gjT-5X-BjZ" secondAttribute="height" multiplier="0.2" id="xGy-qm-5Ll"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Ojq-ig-CH2"/>
             <connections>
                 <outlet property="activityIndicator" destination="qk4-28-Vzb" id="QsJ-oF-9Jn"/>
                 <outlet property="closeButton" destination="KEW-EJ-9r2" id="rn7-hT-QBL"/>
                 <outlet property="imageContainerView" destination="7ZX-9I-uUA" id="Acc-as-mpW"/>
+                <outlet property="imageMetaData" destination="xv4-TR-hMa" id="Ynf-bC-wlo"/>
+                <outlet property="imageMetaDataContainer" destination="gHZ-4l-1sQ" id="ZlG-yJ-3yd"/>
                 <outlet property="photo" destination="xnq-eg-vBy" id="cwR-ft-Vuo"/>
             </connections>
             <point key="canvasLocation" x="-135.19999999999999" y="-269.41529235382313"/>
