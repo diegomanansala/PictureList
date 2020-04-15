@@ -40,17 +40,25 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gHZ-4l-1sQ">
-                    <rect key="frame" x="0.0" y="533.5" width="375" height="133.5"/>
+                    <rect key="frame" x="0.0" y="531.5" width="375" height="135.5"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xv4-TR-hMa">
-                            <rect key="frame" x="8" y="8" width="359" height="118"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xv4-TR-hMa">
+                            <rect key="frame" x="8" y="8" width="359" height="120"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="120" placeholder="YES" id="wej-7W-dUb"/>
+                            </constraints>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                             <color key="textColor" red="0.97254901959999995" green="0.96470588239999999" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                     <color key="backgroundColor" white="0.14999999999999999" alpha="0.25" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="xv4-TR-hMa" firstAttribute="top" secondItem="gHZ-4l-1sQ" secondAttribute="top" constant="8" id="5gE-ZV-L9O"/>
+                        <constraint firstAttribute="trailing" secondItem="xv4-TR-hMa" secondAttribute="trailing" constant="8" id="JNY-TV-Tjr"/>
+                        <constraint firstItem="xv4-TR-hMa" firstAttribute="leading" secondItem="gHZ-4l-1sQ" secondAttribute="leading" constant="8" id="Suf-kh-j3J"/>
+                        <constraint firstAttribute="bottom" secondItem="xv4-TR-hMa" secondAttribute="bottom" constant="7.5" id="xr0-AR-rFd"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -63,7 +71,6 @@
                 <constraint firstItem="gHZ-4l-1sQ" firstAttribute="width" secondItem="gjT-5X-BjZ" secondAttribute="width" id="c6o-A5-Vic"/>
                 <constraint firstItem="Ojq-ig-CH2" firstAttribute="bottom" secondItem="7ZX-9I-uUA" secondAttribute="bottom" id="g7S-zk-il4"/>
                 <constraint firstItem="Ojq-ig-CH2" firstAttribute="trailing" secondItem="gHZ-4l-1sQ" secondAttribute="trailing" id="nPa-Kw-EjT"/>
-                <constraint firstItem="gHZ-4l-1sQ" firstAttribute="height" secondItem="gjT-5X-BjZ" secondAttribute="height" multiplier="0.2" id="xGy-qm-5Ll"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Ojq-ig-CH2"/>
             <connections>

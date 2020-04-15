@@ -32,6 +32,8 @@ class PhotoDetailsViewController: UIViewController, PhotoDetailsViewDelegate {
         photoDetailsView = UINib(nibName: "PhotoDetailsView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as? PhotoDetailsView
         photoDetailsView.delegate = self
         self.view = photoDetailsView
+        
+        photoDetailsView.activityIndicator.startAnimating()
 
         if var backgroundColor = self.bgColor {
             DispatchQueue.global().async {
@@ -54,7 +56,7 @@ class PhotoDetailsViewController: UIViewController, PhotoDetailsViewDelegate {
                     // determine color of close button
                     let L = 0.2126 * redColor + 0.7152 * greenColor + 0.0722 * blueColor
                     self.photoDetailsView.closeButton.setTitleColor(L > 0.179 ? UIColor.black : UIColor.white, for: .normal)
-                    
+                    self.photoDetailsView.activityIndicator.color = L > 0.179 ? .secondarySystemFill : .secondaryLabel
                 }
             }
         }
@@ -70,7 +72,6 @@ class PhotoDetailsViewController: UIViewController, PhotoDetailsViewDelegate {
          "h": "\(Int(imageHeight))"] // height
         .map({ (k,v) in "\(k)=\(v)"  }).joined(separator: "&")
         
-        photoDetailsView.activityIndicator.startAnimating()
         if let url = photoRawUrl {
             // load image
             guard let photoUrl =  URL(string: url + "&" + imageParams)
@@ -127,11 +128,6 @@ class PhotoDetailsViewController: UIViewController, PhotoDetailsViewDelegate {
                 imageView.addGestureRecognizer(tapGestureRecognizer)
             }
         }
-        
-        
-            
-        
-        
         
         self.metaDataIsHidden = false
     }
