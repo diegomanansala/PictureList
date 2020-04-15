@@ -24,7 +24,6 @@ struct Photo {
 extension Photo {
     init?(json: [String: Any]) {
         guard let id = json["id"] as? String,
-            let imageDescription = json["description"] as? String,
             let likes = json["likes"] as? Int,
             let width = json["width"] as? Int,
             let height = json["height"] as? Int,
@@ -38,7 +37,7 @@ extension Photo {
         }
 
         self.id = id
-        self.imageDescription = imageDescription
+        self.imageDescription = json["description"] as? String
         self.likes = likes
         self.width = width
         self.height = height
